@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="LlopSantiago Biblioteca Virtual WEB JSP MVC JDBC JSON">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="LlopSantiago_Biblioteca_Virtual_WEB_JSP_MVC_JDBC_JSON"/>
+        <property name="java-output-path" value="/LlopSantiago Biblioteca Virtual WEB JSP MVC JDBC JSON/build/classes"/>
+    </wb-module>
+</project-modules>
