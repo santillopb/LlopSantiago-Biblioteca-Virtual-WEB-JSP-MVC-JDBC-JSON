@@ -70,6 +70,10 @@
 			<input type="submit" value="Añadir libro">
 		</form>
 	</fieldset>
+	<!-- BOTON IMPORTAR books.json A LA BASE DE DATOS -->
+    <form action="ImportBooksController" method="post">
+    	<input type="submit" value="Importar books.json">
+    </form>
 	<script type="text/javascript">
 		//LISTA DE ENLACES MAS INFORMACION
 		//SI CLICAMOS SOBRE UN ENLACE
