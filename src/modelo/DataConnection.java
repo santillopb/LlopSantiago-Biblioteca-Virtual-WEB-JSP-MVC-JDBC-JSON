@@ -106,6 +106,21 @@ public class DataConnection {
 		}
 		
 	}
+	// Metodo que elimina un libro en la base de datos
+		public void eliminaLibro(Libro l) throws SQLException {
+			String query = "DELETE FROM `biblioteca`.`libros` WHERE (`isbn` = ?)";
+			
+			PreparedStatement stmt;
+			try {
+				conn = getConn();
+				stmt = conn.prepareStatement(query);
+				stmt.setString(1, l.getIsbn());
+				stmt.executeUpdate();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 }
 
 

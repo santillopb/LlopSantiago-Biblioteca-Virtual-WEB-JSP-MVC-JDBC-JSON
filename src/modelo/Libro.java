@@ -14,6 +14,9 @@ public class Libro {
 	private String categoria;
 	
 	// Constructor
+	public Libro() {
+		
+	}
 	public Libro(String isbn, String titulo, String subtitulo, String autor, String fechaPublicacion, String editorial,
 			int paginas, String descripcion, String paginaWeb, String categoria) {
 		super();

@@ -69,7 +69,26 @@ public class Modelo {
 	//Insertamos libro
 	public void setLibro(Libro libro) {
 		this.libro = libro;
+		DataConnection dataConnection = new DataConnection("sllop", "Temp2020$$");
+		
+		try {
+			dataConnection.insertaLibro(this.libro);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-    
+    //Eliminamos libro
+	public void eliminaLibro(Libro libro) {
+		this.libro = libro;
+		DataConnection dataConnection = new DataConnection("sllop", "Temp2020$$");
+
+		try {
+			dataConnection.eliminaLibro(this.libro);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
