@@ -7,12 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class DataConnection {
 	private String usuario;
 	private String password;
-	
+
 	private Connection conn;
 
 	public DataConnection(String usuario, String password) {
@@ -26,14 +27,13 @@ public class DataConnection {
 	public Connection getConn() throws ClassNotFoundException {
 		String urlConnection;
 		Properties infoConnection;
-		
+
 		urlConnection = "jdbc:mysql://localhost:3306/biblioteca";
-		
+
 		infoConnection = new Properties();
 		infoConnection.put("user", this.usuario);
 		infoConnection.put("password", this.password);
-		
-		
+
 		try {
 			// Registrar el driver de conexion a la base de datos
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -43,7 +43,7 @@ public class DataConnection {
 			// TODO Auto-generated catch block
 			e.getMessage();
 		}
-		
+
 		return conn;
 	}
 
@@ -52,17 +52,17 @@ public class DataConnection {
 	public ResultSet dameLibros() throws SQLException {
 		ResultSet rs = null;
 		String query = "SELECT * FROM biblioteca.libros";
-		
+
 		// El siguiente objeto contendra la consulta a lanzar
 		// ligada a la conexion a la base de datos o esquema.
 		Statement stmt;
-		
+
 		// Hay que conectarse a la base de datos
 		// para a traves de la conexion obtenida lanzar las consultas
 		try {
 			conn = getConn();
 			stmt = conn.createStatement();
-			
+
 			// Para todas las consultas de seleccion
 			// se utiliza el metodo executeQuery(),
 			// para todas la demas (INSERT, UPDATE, DELETE)
@@ -74,17 +74,101 @@ public class DataConnection {
 		}
 
 		return rs;
-	}	
+	}
+
+	// Método que devuelve ResultSet Libros publicados antes del año 2013
+	public ResultSet dameLibrosAntesAnyo(int anyo) throws SQLException {
+		ResultSet rs = null;
+		String query = "SELECT * FROM biblioteca.libros WHERE fechaPublicacion < ?";
+
+		// El siguiente objeto contendra la consulta a lanzar
+		// ligada a la conexion a la base de datos o esquema.
+		PreparedStatement stmt;
+
+		// Hay que conectarse a la base de datos
+		// para a traves de la conexion obtenida lanzar las consultas
+		try {
+			conn = getConn();
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, anyo);
+			// Para todas las consultas de seleccion
+			// se utiliza el metodo executeQuery(),
+			// para todas la demas (INSERT, UPDATE, DELETE)
+			// se utiliza el metodo executeUpdate()
+			rs = stmt.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return rs;
+
+	}
+
+	// Método que devuelve ResultSet Libros publicados antes del año 2013
+	public ResultSet dameLibrosPorCategoria(String categoria) throws SQLException {
+		ResultSet rs = null;
+		String query = "SELECT * FROM biblioteca.libros WHERE categoria = ?";
+
+		// El siguiente objeto contendra la consulta a lanzar
+		// ligada a la conexion a la base de datos o esquema.
+		PreparedStatement stmt;
+
+		// Hay que conectarse a la base de datos
+		// para a traves de la conexion obtenida lanzar las consultas
+		try {
+			conn = getConn();
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, categoria);
+			// Para todas las consultas de seleccion
+			// se utiliza el metodo executeQuery(),
+			// para todas la demas (INSERT, UPDATE, DELETE)
+			// se utiliza el metodo executeUpdate()
+			rs = stmt.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return rs;
+
+	}
+
+	// Método que devuelve ResultSet Libros publicados antes del año 2013
+	public ResultSet dameLibroPorISBN(String isbn)throws SQLException {
+		ResultSet rs = null;
+		String query = "SELECT * FROM biblioteca.libros WHERE isbn = ?";
+
+		// El siguiente objeto contendra la consulta a lanzar
+		// ligada a la conexion a la base de datos o esquema.
+		PreparedStatement stmt;
+
+		// Hay que conectarse a la base de datos
+		// para a traves de la conexion obtenida lanzar las consultas
+		try {
+			conn = getConn();
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, isbn);
+			// Para todas las consultas de seleccion
+			// se utiliza el metodo executeQuery(),
+			// para todas la demas (INSERT, UPDATE, DELETE)
+			// se utiliza el metodo executeUpdate()
+			rs = stmt.executeQuery();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return rs;
+
+	}
 
 	// Metodo que inserta un libro en la base de datos
 	public void insertaLibro(Libro l) throws SQLException {
-		String query = "INSERT INTO `biblioteca`.`libros` "
-				+ "(`isbn`, `titulo`, `subtitulo`, "
-				+ "`autor`, `fechaPublicacion`, "
-				+ "`editorial`, `paginas`, `descripcion`, "
-				+ "`paginaWeb`, `categoria`) VALUES "
-				+ "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
+		String query = "INSERT INTO `biblioteca`.`libros` " + "(`isbn`, `titulo`, `subtitulo`, "
+				+ "`autor`, `fechaPublicacion`, " + "`editorial`, `paginas`, `descripcion`, "
+				+ "`paginaWeb`, `categoria`) VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
 		PreparedStatement stmt;
 		try {
 			conn = getConn();
@@ -104,30 +188,23 @@ public class DataConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	// Metodo que elimina un libro en la base de datos
-		public void eliminaLibro(Libro l) throws SQLException {
-			String query = "DELETE FROM `biblioteca`.`libros` WHERE (`isbn` = ?)";
-			
-			PreparedStatement stmt;
-			try {
-				conn = getConn();
-				stmt = conn.prepareStatement(query);
-				stmt.setString(1, l.getIsbn());
-				stmt.executeUpdate();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void eliminaLibro(Libro l) throws SQLException {
+		String query = "DELETE FROM `biblioteca`.`libros` WHERE (`isbn` = ?)";
+
+		PreparedStatement stmt;
+		try {
+			conn = getConn();
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, l.getIsbn());
+			stmt.executeUpdate();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
+
 }
-
-
-
-
-
-
-
-
-

@@ -53,11 +53,7 @@ public class ImportBooksController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		Modelo m = new Modelo();
-		//Declaramos clases Gson
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		Gson gson = new Gson();
-		gson = gsonBuilder.setPrettyPrinting().create();
+		Modelo m = new Modelo();	
 		
 		//Iniciamos
 		JsonParser parser = new JsonParser();

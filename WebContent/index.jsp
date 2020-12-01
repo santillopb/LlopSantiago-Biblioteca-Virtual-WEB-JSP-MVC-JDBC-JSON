@@ -74,6 +74,27 @@
     <form action="ImportBooksController" method="post">
     	<input type="submit" value="Importar books.json">
     </form>
+    <!-- FILTRAR LIBROS FORMATO JSON -->
+    <h2>Filtrar libros en formato json</h2>
+    <button id="btnAllBooks">Todos los libros</button>
+    
+    <label for="txfBeforeYear">Filtrar libros publicados antes del año: </label>
+    <input type="number" id="txfBeforeYear">
+    <button id="btnBeforeYear">Filtrar</button>
+    
+    <label for="categoryFilter">Filtrar por categoria: </label>
+    <select id="categoryFilter" name="categoryFilter">
+				<option></option>
+				<option value="Classic">Classic</option>
+				<option value="Drama">Drama</option>
+				<option value="Fantasy">Fantasy</option>
+				<option value="Suspense">Suspense</option>
+			</select>
+  
+    <label for="txfISBNFilter">Filtrar libro por ISBN: </label>
+    <input type="text" id="txfISBNFilter" name="txfISBNFilter">
+    <button id="btnISBNFilter">Filtrar</button>
+    
 	<script type="text/javascript">
 		//LISTA DE ENLACES MAS INFORMACION
 		//SI CLICAMOS SOBRE UN ENLACE
@@ -100,7 +121,39 @@
 			})
 			
 		}
+		//Filtros JSON
+		var btnAllBooks, btnBeforeYear, categoryFilter, btnISBNFilter;
+		var txfBeforeYear, txfISBNFilter;
+		//Todos los libros
+		btnAllBooks = document.getElementById('btnAllBooks');
+		btnBeforeYear = document.getElementById('btnBeforeYear');
+		categoryFilter = document.getElementById('categoryFilter');
+		btnISBNFilter = document.getElementById('btnISBNFilter');
+		
+		
+		
+		
+		btnAllBooks.addEventListener("click", function() {
+			location.href = 'AllBooksJSONController';
+		});
+		
+		btnBeforeYear.addEventListener("click", function() {
+			txfBeforeYear = document.getElementById('txfBeforeYear').value;
+			location.href = 'BooksBeforeYearJSONController?before=' + txfBeforeYear;
+		});
+		
+		categoryFilter.addEventListener("change", function() {
+			// Deteminar cual es la categoria seleccionada
+			var indice = this.selectedIndex;
 			
+			var category = this.options[indice].value;
+			location.href = 'BooksCategoryFilterJSONController?category=' + category;
+		});
+		
+		btnISBNFilter.addEventListener("click", function() {
+			txfISBNFilter = document.getElementById('txfISBNFilter').value;
+			location.href = 'BookISBNFilterJSONController?ISBN=' + txfISBNFilter;
+		})
 			
 	</script>
 </body>
